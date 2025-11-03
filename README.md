@@ -26,7 +26,14 @@ pip install -r requirements.txt
 cp .env.example .env
 ```
 
-4. Получите токен бота у [@BotFather](https://t.me/BotFather) и добавьте его в `.env`:
+4. Получите токен бота у [@BotFather](https://t.me/BotFather) и скопируйте `.env.example` в `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Затем отредактируйте `.env` и укажите ваши параметры:
+
 ```
 BOT_TOKEN=your_bot_token_here
 INITIAL_ADMIN_ID=your_telegram_user_id
@@ -42,13 +49,15 @@ XRAY_PORT_TROJAN=8444
 XRAY_PORT_SS=8445
 ```
 
-Где:
-- `INITIAL_ADMIN_ID` - ваш Telegram ID (можно получить у бота @userinfobot). Это добавит вас как первого администратора при запуске бота.
-- `XRAY_CONFIG_PATH` - путь к конфигурационному файлу Xray Core
-- `XRAY_BIN_PATH` - путь к исполняемому файлу Xray
-- `XRAY_SERVER_ADDRESS` - доменное имя или IP адрес вашего VPN сервера
+**Важно:**
+- `INITIAL_ADMIN_ID` - ваш Telegram ID (получите у бота @userinfobot)
+- `XRAY_CONFIG_PATH` - путь к конфигурационному файлу Xray (обычно `/usr/local/etc/xray/config.json`)
+- `XRAY_BIN_PATH` - путь к исполняемому файлу Xray (обычно `/usr/local/bin/xray`)
+- `XRAY_SERVER_ADDRESS` - **доменное имя** вашего сервера (если есть SSL) или IP адрес
 - `XRAY_PROTOCOL` - используемый протокол: `vless`, `vmess`, `trojan` или `ss`
-- `XRAY_PORT_*` - порты для соответствующих протоколов
+- `XRAY_PORT_*` - порты, которые настроены в вашем Xray `config.json`
+
+**Подробная инструкция по установке Xray:** см. файл `XRAY_SETUP.md`
 
 ## Запуск
 
@@ -134,9 +143,15 @@ bot_vpn/
 
 **Требования:**
 - Xray Core установлен и настроен на сервере
-- Бот имеет доступ к файлу конфигурации Xray
+- Бот имеет доступ к файлу конфигурации Xray (права на чтение/запись)
 - Права на перезагрузку Xray (через systemctl)
-- Права sudo для перезагрузки сервиса
+
+**📖 Подробная инструкция по установке Xray:** см. файл `XRAY_SETUP.md`
+
+**⚠️ Важно:** 
+- Убедитесь, что в `config.json` Xray есть структура `inbounds[].settings.clients[]`
+- Бот должен иметь права на запись в `/usr/local/etc/xray/config.json`
+- Если бот работает от имени другого пользователя, используйте `sudo` или настройте ACL
 
 ## Примечания
 
